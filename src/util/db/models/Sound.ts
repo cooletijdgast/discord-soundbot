@@ -1,11 +1,7 @@
-export default class Sound {
-  public readonly name: string;
-  public readonly count: number;
-  public readonly tags: string[];
+import { RowDataPacket } from 'mysql2'
 
-  constructor(name: string) {
-    this.name = name;
-    this.count = 0;
-    this.tags = [];
-  }
+export default interface Sound extends RowDataPacket{
+  id?: number;
+  name?: string;
+  count?: number;
 }

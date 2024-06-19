@@ -1,3 +1,5 @@
+import dotenv from 'dotenv'
+
 import Config from '~/config/Config';
 import ConfigInterface from '~/config/ConfigInterface';
 import Container from '~/util/Container';
@@ -18,6 +20,7 @@ class DiscordSoundBot {
   }
 
   public start() {
+    dotenv.config()
     this.bot.start();
     console.info(localize.t('url', { clientId: this.config.clientId }));
   }

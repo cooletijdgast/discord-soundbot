@@ -29,6 +29,11 @@ rules:
   import/no-unresolved: off
   import/order: off
   import/prefer-default-export: off
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies: false
+      optionalDependencies: false
+      peerDependencies: false
 
   arrow-body-style:
     - error
@@ -103,3 +108,5 @@ rules:
 
 # Custom rules
   prefer-early-return: error
+
+"import/no-extraneous-dependencies": ["error", {"devDependencies": false, "optionalDependencies": false, "peerDependencies": false}]
