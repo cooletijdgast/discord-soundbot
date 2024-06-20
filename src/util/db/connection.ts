@@ -1,4 +1,3 @@
-import mysql from 'mysql';
 import knex from 'knex';
   
 export default knex({
