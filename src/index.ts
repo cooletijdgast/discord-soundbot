@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 
 import Config from '~/config/Config';
 import ConfigInterface from '~/config/ConfigInterface';
@@ -8,19 +8,26 @@ import localize from '~/util/i18n/localize';
 import SoundBot from './bot/SoundBot';
 import Command from './commands/base/Command';
 
+import { PrismaClient } from '@prisma/client';
+import { SoundRepository } from './util/db/sound.repository';
+
+const prismaClient = new PrismaClient();
+
 class DiscordSoundBot {
   private readonly config: Config;
   private readonly bot: SoundBot;
+  private readonly soundRepository: SoundRepository;
 
   constructor(config: ConfigInterface, commands: Command[] = []) {
     this.config = Container.config;
     this.bot = Container.soundBot;
+    this.soundRepository = new SoundRepository(prismaClient);
 
     this.initializeWith(config, commands);
   }
 
   public start() {
-    dotenv.config()
+    dotenv.config();
     this.bot.start();
     console.info(localize.t('url', { clientId: this.config.clientId }));
   }

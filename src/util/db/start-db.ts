@@ -5,7 +5,6 @@ const prisma = new PrismaClient()
 async function main() {
     const sound = await prisma.sound.findMany()
     console.log(sound)
-  // ... you will write your Prisma Client queries here
 }
 
 main()

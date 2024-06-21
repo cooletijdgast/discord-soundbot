@@ -13,8 +13,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sound {
+model Tag {
   id    Int     @id @default(autoincrement())
-  name String  @unique
-  count  Int
+  name  String  @unique
+  sound Sound[]
+}
+
+model Sound {
+  id    Int @id @default(autoincrement())
+  name  String @unique
+  count Int
+  tags Tag[]
+}
+
+model IgnoreList {
+  id Int @id
+}
+
+model Entrances {
+  discordId Int    @id
+  name      String
+}
+
+model Exits {
+  discordId Int    @id
+  name      String
 }

@@ -44,6 +44,7 @@ import {
   SkipCommand,
   SoundCommand
 } from '../commands/sound';
+import { SoundRepository } from './db/sound.repository';
 
 export const config = new Config();
 const queue = new SoundQueue(config);
