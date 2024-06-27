@@ -12,12 +12,12 @@ import {
 import { Message } from 'discord.js';
 
 import Config from '~/config/Config';
-import * as sounds from '~/util/db/Sounds';
 import localize from '~/util/i18n/localize';
 import { getPathForSound } from '~/util/SoundUtil';
 
 import ChannelTimeout from './ChannelTimeout';
 import QueueItem from './QueueItem';
+import { SoundRepository } from '~/util/db/sound.repository';
 
 export default class SoundQueue {
   private readonly config: Config;
@@ -26,7 +26,7 @@ export default class SoundQueue {
   private queue: QueueItem[] = [];
   private currentSound: Nullable<QueueItem>;
 
-  constructor(config: Config) {
+  constructor(config: Config, private readonly soundRepository: SoundRepository) {
     this.config = config;
     this.player = createAudioPlayer();
   }
@@ -88,7 +88,7 @@ export default class SoundQueue {
       });
 
       await this.playSound(connection);
-      this.handleFinishedPlayingSound(connection);
+      await this.handleFinishedPlayingSound(connection);
     } catch (error: any) {
       this.handleError(error);
     }
@@ -116,9 +116,9 @@ export default class SoundQueue {
     });
   }
 
-  private handleFinishedPlayingSound(connection: VoiceConnection) {
+  private async handleFinishedPlayingSound(connection: VoiceConnection) {
     const { name, channel, message, count } = this.currentSound!;
-    sounds.incrementCount(name);
+    await this.soundRepository.incrementCount(name);
 
     if (count > 1) {
       this.add(new QueueItem(name, channel, message, count - 1));

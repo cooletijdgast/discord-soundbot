@@ -12,14 +12,14 @@ import {
 import Config from '~/config/Config';
 import QueueItem from '~/queue/QueueItem';
 import SoundQueue from '~/queue/SoundQueue';
-import * as entrances from '~/util/db/Entrances';
-import * as exits from '~/util/db/Exits';
 import localize from '~/util/i18n/localize';
 import { getSounds } from '~/util/SoundUtil';
 
 import Command from '../commands/base/Command';
 import CommandCollection from './CommandCollection';
 import MessageHandler from './MessageHandler';
+import { ExitRepository } from '~/util/db/exit.repository';
+import { EntranceRepository } from '~/util/db/entrances.repository';
 
 export default class SoundBot extends Client {
   private readonly config: Config;
@@ -31,7 +31,9 @@ export default class SoundBot extends Client {
     config: Config,
     commands: CommandCollection,
     messageHandler: MessageHandler,
-    queue: SoundQueue
+    queue: SoundQueue,
+    private readonly exitRepository: ExitRepository,
+    private readonly entranceRepository: EntranceRepository
   ) {
     super({
       intents: [
@@ -74,36 +76,40 @@ export default class SoundBot extends Client {
     this.commands.registerUserCommands(this.user);
   }
 
-  private onUserJoinsVoiceChannel(oldState: VoiceState, newState: VoiceState) {
+  private async onUserJoinsVoiceChannel(oldState: VoiceState, newState: VoiceState) {
     const { channel: previousVoiceChannel } = oldState;
     const { channel: currentVoiceChannel, member } = newState;
 
     if (!member) return;
     if (!currentVoiceChannel || previousVoiceChannel === currentVoiceChannel) return;
-    if (!entrances.exists(member.id)) return;
+    if (!(await this.entranceRepository.exists(member.id))) return;
 
-    const sound = entrances.get(member.id);
-    if (!getSounds().includes(sound)) return;
+    const sound = await this.entranceRepository.get(member.id);
+    if (sound?.name) {
+      if (!getSounds().includes(sound.name)) return;
 
-    this.queue.add(new QueueItem(sound, currentVoiceChannel));
+      this.queue.add(new QueueItem(sound.name, currentVoiceChannel));
+    }
   }
 
-  private onUserLeavesVoiceChannel(oldState: VoiceState, newState: VoiceState) {
+  private async onUserLeavesVoiceChannel(oldState: VoiceState, newState: VoiceState) {
     const { channel: previousVoiceChannel } = oldState;
     const { channel: currentVoiceChannel, member } = newState;
 
     if (!member) return;
     if (!previousVoiceChannel || previousVoiceChannel === currentVoiceChannel) return;
-    if (!exits.exists(member.id)) return;
+    if (!(await this.exitRepository.exists(member.id))) return;
 
-    const sound = exits.get(member.id);
-    if (!getSounds().includes(sound)) return;
+    const sound = await this.exitRepository.get(member.id);
+    if (sound?.name) {
+      if (!getSounds().includes(sound.name)) return;
 
-    this.queue.add(new QueueItem(sound, previousVoiceChannel));
+      this.queue.add(new QueueItem(sound.name, previousVoiceChannel));
+    }
   }
 
-  private onMessage(message: Message) {
-    this.messageHandler.handle(message);
+  private async onMessage(message: Message) {
+    await this.messageHandler.handle(message);
   }
 
   private onBotJoinsServer(guild: Guild) {

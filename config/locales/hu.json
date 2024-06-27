@@ -42,7 +42,6 @@
     },
     "errors": {
         "format": {
-            "sound": "💥📛 A fájlnév csak betû és számkombinációkat tartalmazhat!",
             "url": "💥🚋 Érvénytelen URL!"
         },
         "sounds": {

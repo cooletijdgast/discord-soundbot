@@ -42,7 +42,6 @@
     },
     "errors": {
         "format": {
-            "sound": "💥📛 Der Name der Datei muss aus Buchstaben und Nummern bestehen!",
             "time": "💥⌚ Die angegebene Zeit war nicht im Format [[hh:]mm:]ss[.xxx].",
             "url": "💥🚋 Gib eine YouTube-URL an."
         },

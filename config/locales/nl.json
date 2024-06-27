@@ -42,7 +42,6 @@
     },
     "errors": {
         "format": {
-            "sound": "💥📛 Bestandsnaam mag alleen letters en cijfers bevatten!",
             "url": "💥🚋 URL is niet geldig!"
         },
         "sounds": {

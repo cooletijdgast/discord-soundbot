@@ -26,7 +26,6 @@ export default class AttachmentValidator extends BaseValidator {
     const soundName = fileName.substring(0, fileName.lastIndexOf('.'));
 
     this.validateExtension(fileName);
-    this.validateName(soundName);
     this.validateSize(attachment.size);
     this.validateUniqueness(soundName);
   }

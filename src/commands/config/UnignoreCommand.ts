@@ -1,11 +1,15 @@
 import { Message } from 'discord.js';
 
-import * as ignoreList from '~/util/db/IgnoreList';
 import localize from '~/util/i18n/localize';
 
 import Command from '../base/Command';
+import { IgnoreListRepository } from '~/util/db/ignore-list.repository';
 
 export class UnignoreCommand extends Command {
+  constructor(private readonly ignoreListRepository: IgnoreListRepository) {
+    super();
+  }
+
   public readonly triggers = ['unignore'];
   public readonly usage = 'Usage: !unignore <user>';
   public readonly elevated = true;
@@ -18,8 +22,8 @@ export class UnignoreCommand extends Command {
       return;
     }
 
-    users.forEach(user => {
-      ignoreList.remove(user.id);
+    users.forEach(async user => {
+      await this.ignoreListRepository.remove(user.id);
       message.channel.send(localize.t('commands.ignore.remove', { user: user.username }));
     });
   }

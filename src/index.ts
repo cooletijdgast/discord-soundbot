@@ -16,12 +16,10 @@ const prismaClient = new PrismaClient();
 class DiscordSoundBot {
   private readonly config: Config;
   private readonly bot: SoundBot;
-  private readonly soundRepository: SoundRepository;
 
   constructor(config: ConfigInterface, commands: Command[] = []) {
     this.config = Container.config;
     this.bot = Container.soundBot;
-    this.soundRepository = new SoundRepository(prismaClient);
 
     this.initializeWith(config, commands);
   }

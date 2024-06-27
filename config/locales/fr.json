@@ -42,7 +42,6 @@
     },
     "errors": {
         "format": {
-            "sound": "💥📛 Le nom de fichier ne doit contenir que des chiffres et des lettres !",
             "url": "💥🚋 L'URL n'est pas valide !"
         },
         "sounds": {

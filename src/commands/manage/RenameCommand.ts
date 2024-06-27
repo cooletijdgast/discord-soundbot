@@ -1,11 +1,10 @@
 import { Message } from 'discord.js';
 import fs from 'fs';
-
-import * as soundsDb from '~/util/db/Sounds';
 import localize from '~/util/i18n/localize';
 import { getExtensionForSound, getSounds } from '~/util/SoundUtil';
 
 import Command from '../base/Command';
+import { SoundRepository } from '~/util/db/sound.repository';
 
 export class RenameCommand extends Command {
   public readonly triggers = ['rename'];
@@ -13,7 +12,11 @@ export class RenameCommand extends Command {
   public readonly usage = 'Usage: !rename <old> <new>';
   public readonly elevated = true;
 
-  public run(message: Message, params: string[]) {
+  constructor(private readonly soundRepository: SoundRepository) {
+    super();
+  }
+
+  public async run(message: Message, params: string[]): Promise<void> {
     if (!message.member) return;
 
     if (params.length !== this.numberOfParameters) {
@@ -38,7 +41,7 @@ export class RenameCommand extends Command {
     const oldFile = `sounds/${oldName}.${extension}`;
     const newFile = `sounds/${newName}.${extension}`;
     fs.renameSync(oldFile, newFile);
-    soundsDb.rename(oldName, newName);
+    await this.soundRepository.rename(oldName, newName);
 
     message.channel.send(localize.t('commands.rename.success', { newName, oldName }));
   }

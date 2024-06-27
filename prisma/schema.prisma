@@ -27,15 +27,15 @@ model Sound {
 }
 
 model IgnoreList {
-  id Int @id
+  id String @id
 }
 
-model Entrances {
-  discordId Int    @id
-  name      String
+model Entrance {
+  userId String    @id
+  name      String?
 }
 
-model Exits {
-  discordId Int    @id
-  name      String
+model Exit {
+  userId String    @id
+  name      String?
 }

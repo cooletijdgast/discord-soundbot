@@ -10,7 +10,6 @@ export default class YoutubeValidator extends BaseValidator {
   private readonly VALID_HOSTS = ['www.youtube.com', 'youtu.be'];
 
   public validate(name: string, url: string) {
-    this.validateName(name);
     this.validateUniqueness(name);
     this.validateUrl(url);
   }

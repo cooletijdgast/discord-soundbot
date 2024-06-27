@@ -44,9 +44,3 @@ export class InvalidUrlError extends ValidationError {
     super(localize.t('errors.format.url'));
   }
 }
-
-export class NameError extends ValidationError {
-  constructor() {
-    super(localize.t('errors.format.sound'));
-  }
-}

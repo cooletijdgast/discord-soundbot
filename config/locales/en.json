@@ -49,7 +49,6 @@
     },
     "errors": {
         "format": {
-            "sound": "💥📛 Filename has to be all letters and numbers!",
             "time": "💥⌚ Specified time was not given in the form of [[hh:]mm:]ss[.xxx].",
             "url": "💥🚋 Please specify a valid URL from YouTube."
         },

@@ -1,22 +1,25 @@
 import { Message } from 'discord.js';
 
-import Sound from '~/util/db/models/Sound';
-import * as soundsDb from '~/util/db/Sounds';
-
 import Command from '../base/Command';
+import { SoundRepository } from '~/util/db/sound.repository';
+import { Sound } from '@prisma/client';
 
 export class MostPlayedCommand extends Command {
+  constructor(private readonly soundRepository: SoundRepository) {
+    super();
+  }
+
   public readonly triggers = ['mostplayed'];
 
-  public run(message: Message) {
-    const formattedMessage = this.getFormattedMessage();
+  public async run(message: Message) {
+    const formattedMessage = await this.getFormattedMessage();
     if (!formattedMessage) return;
 
     message.channel.send(formattedMessage);
   }
 
-  private getFormattedMessage() {
-    const sounds = soundsDb.mostPlayed();
+  private async getFormattedMessage() {
+    const sounds = await this.soundRepository.mostPlayed();
     if (!sounds.length) return undefined;
 
     const longestSound = this.findLongestWord(sounds.map(sound => sound.name));

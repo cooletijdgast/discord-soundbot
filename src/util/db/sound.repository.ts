@@ -1,6 +1,6 @@
 import { PrismaClient, Sound, Tag } from '@prisma/client';
 
-interface SoundRepositoryActions {
+interface SoundRepositoryDescription {
   findByName(sound: string): Promise<Sound | null>;
   addSingleTag(sound: string, tag: string): Promise<void>;
   exists(name: string): Promise<boolean>;
@@ -8,14 +8,14 @@ interface SoundRepositoryActions {
   rename(oldName: string, newName: string): Promise<void>;
   remove(name: string): Promise<void>;
   incrementCount(sound: string): Promise<void>;
-  withTag(tag: string): Promise<Sound | null>;
+  withTag(tag: string): Promise<Sound[] | null>;
   addTags(sound: string, tags: string[]): Promise<void>;
   listTags(sound: string): Promise<Tag[] | null>;
   clearTags(sound: string): Promise<void>;
   mostPlayed(): Promise<Sound[]>;
 }
 
-export class SoundRepository implements SoundRepositoryActions {
+export class SoundRepository implements SoundRepositoryDescription {
   constructor(private readonly prismaCient: PrismaClient) {}
 
   public async findByName(soundName: string): Promise<Sound | null> {
@@ -39,27 +39,41 @@ export class SoundRepository implements SoundRepositoryActions {
   }
 
   public async exists(name: string): Promise<boolean> {
-    return !!this.prismaCient.sound.findFirst({ where: { name: name } });
+    return !!(await this.prismaCient.sound.findFirst({ where: { name: name } }));
   }
 
   public async add(sound: string): Promise<void> {
-    this.prismaCient.sound.create({ data: { name: sound, count: 0 } });
+    await this.prismaCient.sound.create({ data: { name: sound, count: 0 } });
   }
 
   public async rename(oldName: string, newName: string): Promise<void> {
-    this.prismaCient.sound.update({ where: { name: oldName }, data: { name: newName } });
+    try {
+      await this.prismaCient.sound.update({ where: { name: oldName }, data: { name: newName } });
+    } catch (error) {
+      console.error(error);
+    }
   }
   public async remove(name: string): Promise<void> {
-    this.prismaCient.sound.delete({ where: { name: name } });
+    try {
+      await this.prismaCient.sound.delete({ where: { name: name } });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   public async incrementCount(sound: string): Promise<void> {
-    this.prismaCient.sound.update({ where: { name: sound }, data: { count: { increment: 1 } } });
+    if(!await this.exists(sound)){
+      await this.add(sound);
+    }
+    await this.prismaCient.sound.update({
+      where: { name: sound },
+      data: { count: { increment: 1 } }
+    });
   }
 
-  public async withTag(tag: string): Promise<Sound | null> {
+  public async withTag(tag: string): Promise<Sound[] | null> {
     const matchedTags = await this.prismaCient.tag.findFirst({ where: { name: tag } });
-    return this.prismaCient.sound.findFirst({
+    return this.prismaCient.sound.findMany({
       where: { tags: { some: { id: matchedTags?.id } } }
     });
   }

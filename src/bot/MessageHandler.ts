@@ -4,20 +4,20 @@ import { Message } from 'discord.js';
 
 import userHasElevatedRole from '~/commands/util/userHasElevatedRole';
 import { config } from '~/util/Container';
-import * as ignoreList from '~/util/db/IgnoreList';
 import localize from '~/util/i18n/localize';
 
 import CommandCollection from './CommandCollection';
+import { IgnoreListRepository } from '~/util/db/ignore-list.repository';
 
 export default class MessageHandler {
   private readonly commands: CommandCollection;
 
-  constructor(commands: CommandCollection) {
+  constructor(commands: CommandCollection, private readonly ignoreListRepository: IgnoreListRepository) {
     this.commands = commands;
   }
 
-  public handle(message: Message) {
-    if (!this.isValidMessage(message)) return;
+  public async handle(message: Message) {
+    if (!await this.isValidMessage(message)) return;
 
     const messageToHandle = message;
     messageToHandle.content = message.content.substring(config.prefix.length);
@@ -25,12 +25,12 @@ export default class MessageHandler {
     this.execute(messageToHandle);
   }
 
-  private isValidMessage(message: Message) {
+  private async isValidMessage(message: Message) {
     return (
       !message.author.bot &&
       !message.isDirectMessage() &&
       message.hasPrefix(config.prefix) &&
-      !ignoreList.exists(message.author.id)
+      !await this.ignoreListRepository.exists(message.author.id)
     );
   }
 

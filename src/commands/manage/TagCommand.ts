@@ -1,10 +1,10 @@
 import { Message } from 'discord.js';
 
-import * as sounds from '~/util/db/Sounds';
 import localize from '~/util/i18n/localize';
 import { getSounds } from '~/util/SoundUtil';
 
 import Command from '../base/Command';
+import { SoundRepository } from '~/util/db/sound.repository';
 
 export class TagCommand extends Command {
   public readonly triggers = ['tag'];
@@ -12,7 +12,11 @@ export class TagCommand extends Command {
   public readonly usage = 'Usage: !tag <sound> [<tag> ... <tagN> | clear]';
   public readonly elevated = true;
 
-  public run(message: Message, params: string[]) {
+  constructor(private readonly soundRepository: SoundRepository) {
+    super();
+  }
+
+  public async run(message: Message, params: string[]): Promise<void> {
     if (params.length < this.numberOfParameters) {
       message.channel.send(this.usage);
       return;
@@ -25,16 +29,19 @@ export class TagCommand extends Command {
     }
 
     if (!params.length) {
-      const tags = sounds.listTags(sound).join(', ');
-      message.author.send(localize.t('commands.tag.found', { sound, tags }));
+      const tags = await this.soundRepository.listTags(sound);
+      if (tags) {
+        let tag = tags.join(', ');
+        message.author.send(localize.t('commands.tag.found', { sound, tag }));
+      }
       return;
     }
 
     if (params[0] === 'clear') {
-      sounds.clearTags(sound);
+      await this.soundRepository.clearTags(sound);
       return;
     }
 
-    sounds.addTags(sound, params);
+    await this.soundRepository.addTags(sound, params);
   }
 }

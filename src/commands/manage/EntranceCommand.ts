@@ -1,23 +1,27 @@
 import { Message } from 'discord.js';
 
-import * as entrances from '~/util/db/Entrances';
 import { getSounds } from '~/util/SoundUtil';
 
 import Command from '../base/Command';
+import { EntranceRepository } from '~/util/db/entrances.repository';
 
 export class EntranceCommand extends Command {
+  constructor(private readonly entranceRepository: EntranceRepository) {
+    super();
+  }
+
   public readonly triggers = ['entrance'];
 
-  public run(message: Message, params: string[]) {
+  public async run(message: Message, params: string[]) {
     const [entranceSound] = params;
     if (!entranceSound) {
-      entrances.remove(message.author.id);
+      await this.entranceRepository.remove(message.author.id);
       return;
     }
 
     const sounds = getSounds();
     if (!sounds.includes(entranceSound)) return;
 
-    entrances.add(message.author.id, entranceSound);
+    await this.entranceRepository.add(message.author.id, entranceSound);
   }
 }
