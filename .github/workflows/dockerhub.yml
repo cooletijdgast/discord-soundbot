@@ -20,9 +20,9 @@ jobs:
         env:
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
-          printenv DOCKERHUB_PASSWORD | docker login --username markokajzer --password-stdin
+          printenv DOCKERHUB_PASSWORD | docker login --username cooletijdgast --password-stdin
           docker buildx build \
             --platform linux/amd64,linux/arm64,linux/arm/v7 \
-            --tag markokajzer/discord-soundbot:latest \
+            --tag cooletijdgast/discord-soundbot:latest \
             --push \
             .
