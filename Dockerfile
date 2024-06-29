@@ -34,9 +34,9 @@ FROM builder AS build
 # Copy files
 COPY --chown=node:node . /app
 
-RUN npm update && npm install
+RUN npm update && npm install && npm install yarn
 
-RUN apt-get --assume-yes install yarn && apt-mark hold yarn 
+RUN yarn install --frozen-lockfile 
 
 # Build project
 RUN yarn build
