@@ -36,7 +36,9 @@ COPY --chown=node:node . /app
 
 RUN npm update && npm install && npm install yarn
 
-RUN yarn install --frozen-lockfile 
+RUN yarn install --frozen-lockfile
+
+RUN npx prisma migrate dev --name init && npx prisma generate
 
 # Build project
 RUN yarn build
