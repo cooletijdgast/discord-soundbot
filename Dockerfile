@@ -34,6 +34,8 @@ FROM builder AS build
 # Copy files
 COPY --chown=node:node . /app
 
+RUN npm install yarn && rm package-lock.json
+
 # Install compile dependencies
 RUN yarn install --frozen-lockfile && \
     yarn cache clean --force
