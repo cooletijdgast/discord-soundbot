@@ -16,3 +16,4 @@ db.json
 test-db.json
 db-test.json
 .env
+package-lock.json
