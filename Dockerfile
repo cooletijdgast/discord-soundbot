@@ -1,7 +1,7 @@
 # Base will install runtime dependencies and configure generics
 FROM node:20-slim AS base
 
-LABEL maintainer="Marko Kajzer <markokajzer91@gmail.com>, Nico Stapelbroek <discord-soundbot@nstapelbroek.com>"
+LABEL maintainer="Lars Brinker"
 
 RUN mkdir /app && chown -R node:node /app
 WORKDIR /app
@@ -33,6 +33,8 @@ FROM builder AS build
 
 # Copy files
 COPY --chown=node:node . /app
+
+COPY prisma /prisma
 
 RUN npm update && npm install && npm install yarn
 
