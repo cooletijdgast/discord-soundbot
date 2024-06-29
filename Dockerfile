@@ -1,5 +1,5 @@
 # Base will install runtime dependencies and configure generics
-FROM node:20-slim as base
+FROM node:20-slim AS base
 
 LABEL maintainer="Marko Kajzer <markokajzer91@gmail.com>, Nico Stapelbroek <discord-soundbot@nstapelbroek.com>"
 
@@ -16,7 +16,7 @@ RUN wget -qO /tini https://github.com/krallin/tini/releases/download/v0.18.0/tin
 ####################################################################################################
 
 # Builder will install system dependencies
-FROM base as builder
+FROM base AS builder
 
 # Install ffmpeg and other deps
 RUN apt-get -qq update > /dev/null && \
@@ -44,7 +44,7 @@ RUN yarn build
 ####################################################################################################
 
 # release has the bare minimum to run the application
-FROM base as release
+FROM base AS release
 
 COPY --from=build --chown=node:node /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
 COPY --from=build --chown=node:node /app .
