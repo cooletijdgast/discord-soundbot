@@ -35,6 +35,7 @@ FROM builder AS build
 COPY --chown=node:node . /app
 
 COPY prisma/ /app
+COPY .env /app/
 
 RUN npm update && npm install && npm install yarn
 
