@@ -1,9 +1,27 @@
 version: '2'
 services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'discord_bot'
+      MYSQL_USER: 'discord'
+      MYSQL_PASSWORD: 'bot'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      # <Port exposed> : <MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
   discord-soundbot:
     build: .
     image: soundbot
     volumes:
       - ./sounds:/app/sounds
       - ./config/config.json:/app/config/config.json
-      - ./db.json:/app/db.json
+volumes:
+  my-db:
