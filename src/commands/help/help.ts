@@ -2,10 +2,10 @@ import { Message } from 'discord.js';
 
 import localize from '~/util/i18n/localize';
 
-import ConfigCommand from '../base/ConfigCommand';
+import Config from '../base/ConfigCommand';
 import chunkedMessages from '../util/chunkedMessages';
 
-export class HelpCommand extends ConfigCommand {
+export class Help extends Config {
   public readonly triggers = ['commands', 'help'];
 
   public run(message: Message) {

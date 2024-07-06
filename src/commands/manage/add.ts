@@ -4,7 +4,7 @@ import Command from '../base/Command';
 import AttachmentDownloader from './add/downloader/AttachmentDownloader';
 import YoutubeDownloader from './add/downloader/YoutubeDownloader';
 
-export class AddCommand extends Command {
+export class Add extends Command {
   public readonly triggers = ['add'];
   private readonly attachmentDownloader: AttachmentDownloader;
   private readonly youtubeDownloader: YoutubeDownloader;

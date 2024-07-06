@@ -4,12 +4,12 @@ import QueueItem from '~/queue/QueueItem';
 import localize from '~/util/i18n/localize';
 import { getSounds } from '~/util/SoundUtil';
 
-import QueueCommand from '../base/QueueCommand';
+import Queue from '../base/Queue';
 import { SoundRepository } from '~/util/db/sound.repository';
 import SoundQueue from '~/queue/SoundQueue';
 import Config from '~/config/Config';
 
-export class RandomCommand extends QueueCommand {
+export class RandomCommand extends Queue {
   constructor(
     private readonly soundRepository: SoundRepository,
     private readonly config: Config

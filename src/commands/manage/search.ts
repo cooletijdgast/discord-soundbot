@@ -6,7 +6,7 @@ import { getSounds } from '~/util/SoundUtil';
 import Command from '../base/Command';
 import { SoundRepository } from '~/util/db/sound.repository';
 
-export class SearchCommand extends Command {
+export class Search extends Command {
   public readonly triggers = ['search'];
   public readonly numberOfParameters = 1;
   public readonly usage = 'Usage: !search <tag>';

@@ -4,9 +4,9 @@ import QueueItem from '~/queue/QueueItem';
 import localize from '~/util/i18n/localize';
 import { existsSound } from '~/util/SoundUtil';
 
-import QueueCommand from '../base/QueueCommand';
+import Queue from '../base/Queue';
 
-export class LoopCommand extends QueueCommand {
+export class LoopCommand extends Queue {
   public readonly triggers = ['loop', 'repeat'];
   public readonly numberOfParameters = 2;
   public readonly usage = 'Usage: !loop <sound> <count>';

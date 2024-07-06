@@ -4,9 +4,9 @@ import QueueItem from '~/queue/QueueItem';
 import localize from '~/util/i18n/localize';
 import { getSounds } from '~/util/SoundUtil';
 
-import QueueCommand from '../base/QueueCommand';
+import Queue from '../base/Queue';
 
-export class ComboCommand extends QueueCommand {
+export class ComboCommand extends Queue {
   public readonly triggers = ['combo'];
   public readonly numberOfParameters = 1;
   public readonly usage = 'Usage: !combo <sound1> ... <soundN>';

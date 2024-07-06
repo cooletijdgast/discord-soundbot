@@ -2,7 +2,7 @@ import { Collection, EmbedBuilder, Message } from 'discord.js';
 
 import localize from '~/util/i18n/localize';
 
-import ConfigCommand from '../base/ConfigCommand';
+import Config from '../base/ConfigCommand';
 
 const FLAGS: Dictionary<string> = {
   de: ':flag_de:',
@@ -15,7 +15,7 @@ const FLAGS: Dictionary<string> = {
   nl: ':flag_nl:'
 };
 
-export class LanguageCommand extends ConfigCommand {
+export class LanguageCommand extends Config {
   public readonly triggers = ['lang'];
 
   public run(message: Message, params: string[]) {

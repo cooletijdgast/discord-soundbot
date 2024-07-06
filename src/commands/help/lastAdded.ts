@@ -5,7 +5,7 @@ import { getPathForSound, getSoundsWithExtension } from '~/util/SoundUtil';
 
 import Command from '../base/Command';
 
-export class LastAddedCommand extends Command {
+export class LastAdded extends Command {
   public readonly triggers = ['lastadded'];
   private readonly amount = 5;
 

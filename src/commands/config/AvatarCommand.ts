@@ -2,10 +2,10 @@ import { ClientUser, Message } from 'discord.js';
 
 import localize from '~/util/i18n/localize';
 
-import ConfigCommand from '../base/ConfigCommand';
+import Config from '../base/ConfigCommand';
 import UserCommand from '../base/UserCommand';
 
-export class AvatarCommand extends ConfigCommand implements UserCommand {
+export class AvatarCommand extends Config implements UserCommand {
   public readonly triggers = ['avatar'];
   public readonly numberOfParameters = 1;
   public readonly usage = 'Usage: !avatar [remove]';

@@ -4,7 +4,7 @@ import { existsSound, getPathForSound } from '~/util/SoundUtil';
 
 import Command from '../base/Command';
 
-export class DownloadCommand extends Command {
+export class Download extends Command {
   public readonly triggers = ['download'];
   public readonly numberOfParameters = 1;
   public readonly usage = 'Usage: !download <sound>';

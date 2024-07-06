@@ -3,10 +3,10 @@ import { Message } from 'discord.js';
 import localize from '~/util/i18n/localize';
 import { getSounds } from '~/util/SoundUtil';
 
-import ConfigCommand from '../base/ConfigCommand';
+import Config from '../base/ConfigCommand';
 import chunkedMessages from '../util/chunkedMessages';
 
-export class SoundsCommand extends ConfigCommand {
+export class Sounds extends Config {
   public readonly triggers = ['sounds'];
 
   public run(message: Message, params: string[]) {

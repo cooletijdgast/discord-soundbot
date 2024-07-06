@@ -1,6 +1,6 @@
-import QueueCommand from '../base/QueueCommand';
+import Queue from '../base/Queue';
 
-export class SkipCommand extends QueueCommand {
+export class SkipCommand extends Queue {
   public readonly triggers = ['skip'];
 
   public run() {

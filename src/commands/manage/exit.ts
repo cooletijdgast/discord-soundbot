@@ -5,7 +5,7 @@ import { getSounds } from '~/util/SoundUtil';
 import Command from '../base/Command';
 import { ExitRepository } from '~/util/db/exit.repository';
 
-export class ExitCommand extends Command {
+export class Exit extends Command {
   constructor(private readonly exitRepository: ExitRepository) {
     super();
   }

@@ -4,7 +4,7 @@ import Command from '../base/Command';
 import { SoundRepository } from '~/util/db/sound.repository';
 import { Sound } from '@prisma/client';
 
-export class MostPlayedCommand extends Command {
+export class MostPlayed extends Command {
   constructor(private readonly soundRepository: SoundRepository) {
     super();
   }

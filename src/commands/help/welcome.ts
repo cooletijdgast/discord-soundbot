@@ -2,9 +2,9 @@ import { Message } from 'discord.js';
 
 import localize from '~/util/i18n/localize';
 
-import ConfigCommand from '../base/ConfigCommand';
+import Config from '../base/ConfigCommand';
 
-export class WelcomeCommand extends ConfigCommand {
+export class Welcome extends Config {
   public readonly triggers = ['welcome'];
 
   public run(message: Message) {

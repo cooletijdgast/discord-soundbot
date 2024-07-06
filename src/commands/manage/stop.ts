@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
 
-import QueueCommand from '../base/QueueCommand';
+import Queue from '../base/Queue';
 
-export class StopCommand extends QueueCommand {
+export class Stop extends Queue {
   public readonly triggers = ['leave', 'stop'];
 
   public run(message: Message) {

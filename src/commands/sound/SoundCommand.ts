@@ -4,9 +4,9 @@ import QueueItem from '~/queue/QueueItem';
 import localize from '~/util/i18n/localize';
 import { existsSound } from '~/util/SoundUtil';
 
-import QueueCommand from '../base/QueueCommand';
+import Queue from '../base/Queue';
 
-export class SoundCommand extends QueueCommand {
+export class SoundCommand extends Queue {
   public readonly triggers = [];
 
   public run(message: Message) {

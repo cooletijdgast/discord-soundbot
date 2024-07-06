@@ -6,7 +6,7 @@ import Command from '../base/Command';
 import chunkedMessages from '../util/chunkedMessages';
 import { SoundRepository } from '~/util/db/sound.repository';
 
-export class TagsCommand extends Command {
+export class Tags extends Command {
   constructor(private readonly soundRepository: SoundRepository) {
     super();
   }
@@ -22,7 +22,9 @@ export class TagsCommand extends Command {
 
   private formattedMessage(sounds: string[]): Promise<string[]> {
     const longestSound = this.findLongestWord(sounds);
-    const soundPromises = sounds.map(async sound => await this.listSoundWithTags(sound, longestSound.length));
+    const soundPromises = sounds.map(
+      async sound => await this.listSoundWithTags(sound, longestSound.length)
+    );
     return Promise.all(soundPromises);
   }
 

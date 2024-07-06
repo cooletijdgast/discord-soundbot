@@ -7,7 +7,7 @@ import { existsSound, getPathForSound } from '~/util/SoundUtil';
 import Command from '../base/Command';
 import { SoundRepository } from '~/util/db/sound.repository';
 
-export class RemoveCommand extends Command {
+export class Remove extends Command {
   constructor(private readonly soundRepository: SoundRepository) {
     super();
   }

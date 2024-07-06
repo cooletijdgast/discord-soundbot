@@ -6,7 +6,7 @@ import { getExtensionForSound, getSounds } from '~/util/SoundUtil';
 import Command from '../base/Command';
 import { SoundRepository } from '~/util/db/sound.repository';
 
-export class RenameCommand extends Command {
+export class Rename extends Command {
   public readonly triggers = ['rename'];
   public readonly numberOfParameters = 2;
   public readonly usage = 'Usage: !rename <old> <new>';
