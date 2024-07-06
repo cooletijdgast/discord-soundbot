@@ -20,7 +20,21 @@ export class ExitRepository implements ExitRepositoryDescription {
 
   public async add(userId: string, sound: string): Promise<void> {
     try {
-      await this.prismaClient.exit.create({ data: { userId: userId, name: sound } });
+      if (!this.exists(userId)) {
+        console.log('create new one');
+        await this.prismaClient.exit.create({ data: { userId: userId, name: sound } });
+      } else {
+        const existingExitSound = await this.get(userId);
+        if (existingExitSound?.name === sound) {
+          console.debug(
+            `Requested exit sound ${sound} is the same as in the database ${existingExitSound.name}`
+          );
+          return;
+        }
+        console.log('removing', existingExitSound);
+        await this.remove(userId);
+        await this.prismaClient.exit.create({ data: { userId: userId, name: sound } });
+      }
     } catch (error) {
       console.error(error);
     }

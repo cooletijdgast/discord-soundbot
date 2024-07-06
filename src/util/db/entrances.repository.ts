@@ -20,7 +20,19 @@ export class EntranceRepository implements EntranceRepositoryDescription {
 
   public async add(userId: string, sound: string): Promise<void> {
     try {
-      await this.prismaClient.entrance.create({ data: { userId: userId, name: sound } });
+      if (!this.exists(userId)) {
+        await this.prismaClient.entrance.create({ data: { userId: userId, name: sound } });
+      } else {
+        const existingEntranceSound = await this.get(userId);
+        if (existingEntranceSound?.name === sound) {
+          console.debug(
+            `Requested entrance sound ${sound} is the same as in the database ${existingEntranceSound.name}`
+          );
+          return;
+        }
+        await this.remove(userId);
+        await this.prismaClient.entrance.create({ data: { userId: userId, name: sound } });
+      }
     } catch (error) {
       console.error(error);
     }

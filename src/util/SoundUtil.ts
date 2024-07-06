@@ -10,7 +10,7 @@ const getSoundsFromSoundFolder = () => {
   );
 };
 
-const getSoundWithExtension = (sound: string) => {
+export const getSoundWithExtension = (sound: string) => {
   const [name, extension] = sound.split('.');
 
   return { extension, name };

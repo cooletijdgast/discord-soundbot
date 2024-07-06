@@ -30,7 +30,8 @@ import {
   SoundsCommand,
   StopCommand,
   TagCommand,
-  TagsCommand
+  TagsCommand,
+  UserSettingCommand
 } from '../commands/manage';
 import AttachmentDownloader from '../commands/manage/add/downloader/AttachmentDownloader';
 import YoutubeDownloader from '../commands/manage/add/downloader/YoutubeDownloader';
@@ -49,6 +50,7 @@ import { SoundRepository } from './db/sound.repository';
 import { EntranceRepository } from './db/entrances.repository';
 import { ExitRepository } from './db/exit.repository';
 import { IgnoreListRepository } from './db/ignore-list.repository';
+import { UserSetting } from '~/commands/manage/user-setting';
 
 export const config = new Config();
 const prismaClient: PrismaClient = new PrismaClient();
@@ -93,6 +95,7 @@ const commands = [
   new TagCommand(soundRepository),
   new TagsCommand(soundRepository),
   new DownloadCommand(),
+  new UserSettingCommand(exitRepository, entranceRepository),
 
   // HELP / INFO COMMANDS
   new WelcomeCommand(config),
